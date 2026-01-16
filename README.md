@@ -70,7 +70,7 @@ Requirements:
 - GLib2
 
 ```bash
-git clone https://github.com/yourusername/switchcalc.git
+git clone https://github.com/djwarf/switchcalc.git
 cd switchcalc
 go build -o switchcalc ./cmd/switchcalc
 ```
