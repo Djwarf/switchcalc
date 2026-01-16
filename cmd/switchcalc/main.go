@@ -83,7 +83,7 @@ func activate(app *gtk.Application) {
 
 	calcApp.window = gtk.NewApplicationWindow(app)
 	calcApp.window.SetTitle("SwitchCalc")
-	calcApp.window.SetDefaultSize(400, 600)
+	calcApp.window.SetDefaultSize(420, 700)
 	calcApp.window.SetResizable(true)
 
 	mainBox := gtk.NewBox(gtk.OrientationVertical, 0)
@@ -298,6 +298,7 @@ func (a *App) createScientificKeypad() *gtk.Box {
 	// Angle mode selector
 	angleModeBox := gtk.NewBox(gtk.OrientationHorizontal, 4)
 	angleModeBox.SetHomogeneous(true)
+	angleModeBox.SetVExpand(true)
 
 	degBtn := gtk.NewToggleButton()
 	degBtn.SetLabel("DEG")
@@ -396,6 +397,7 @@ func (a *App) createScientificKeypad() *gtk.Box {
 	for _, row := range sciKeys {
 		rowBox := gtk.NewBox(gtk.OrientationHorizontal, 4)
 		rowBox.SetHomogeneous(true)
+		rowBox.SetVExpand(true)
 		for _, key := range row {
 			btn := a.createButton(key.label, key.class, key.fn)
 			rowBox.Append(btn)
@@ -589,6 +591,7 @@ func (a *App) createProgrammerKeypad() *gtk.Box {
 	// Hex digits row
 	hexRow := gtk.NewBox(gtk.OrientationHorizontal, 4)
 	hexRow.SetHomogeneous(true)
+	hexRow.SetVExpand(true)
 
 	hexDigits := []string{"A", "B", "C", "D", "E", "F"}
 	for _, h := range hexDigits {
@@ -605,6 +608,7 @@ func (a *App) createProgrammerKeypad() *gtk.Box {
 	// Bitwise operations - Row 1 (basic)
 	bitwiseRow1 := gtk.NewBox(gtk.OrientationHorizontal, 4)
 	bitwiseRow1.SetHomogeneous(true)
+	bitwiseRow1.SetVExpand(true)
 	bitwiseKeys1 := []struct {
 		label string
 		fn    func()
@@ -623,6 +627,7 @@ func (a *App) createProgrammerKeypad() *gtk.Box {
 	// Bitwise operations - Row 2 (NAND, NOR, shifts)
 	bitwiseRow2 := gtk.NewBox(gtk.OrientationHorizontal, 4)
 	bitwiseRow2.SetHomogeneous(true)
+	bitwiseRow2.SetVExpand(true)
 	bitwiseKeys2 := []struct {
 		label string
 		fn    func()
@@ -641,6 +646,7 @@ func (a *App) createProgrammerKeypad() *gtk.Box {
 	// Bitwise operations - Row 3 (rotate, count)
 	bitwiseRow3 := gtk.NewBox(gtk.OrientationHorizontal, 4)
 	bitwiseRow3.SetHomogeneous(true)
+	bitwiseRow3.SetVExpand(true)
 	bitwiseKeys3 := []struct {
 		label string
 		fn    func()
@@ -659,6 +665,7 @@ func (a *App) createProgrammerKeypad() *gtk.Box {
 	// Bitwise operations - Row 4 (advanced)
 	bitwiseRow4 := gtk.NewBox(gtk.OrientationHorizontal, 4)
 	bitwiseRow4.SetHomogeneous(true)
+	bitwiseRow4.SetVExpand(true)
 	bitwiseKeys4 := []struct {
 		label string
 		fn    func()
@@ -1432,7 +1439,7 @@ window {
 	font-size: 1rem;
 	font-style: italic;
 	color: alpha(#FAFAF8, 0.5);
-	min-height: 20px;
+	min-height: 1.2em;
 }
 
 .main-display {
@@ -1440,7 +1447,7 @@ window {
 	font-weight: 600;
 	font-family: "Crimson Text", Georgia, serif;
 	color: #FAFAF8;
-	min-height: 48px;
+	min-height: 2em;
 	text-shadow: 0 2px 4px alpha(black, 0.4);
 	letter-spacing: -0.01em;
 }
@@ -1476,7 +1483,7 @@ window {
 	border-radius: 10px;
 	font-size: 1.1rem;
 	font-weight: 600;
-	min-height: 44px;
+	min-height: 2.5em;
 	margin: 2px;
 	padding: 8px 4px;
 	color: #FAFAF8;
@@ -1549,7 +1556,7 @@ window {
 /* Memory buttons - minimal elegant */
 .memory-button {
 	font-size: 12px;
-	min-height: 36px;
+	min-height: 2em;
 	background: transparent;
 	border: 1px solid alpha(#FAFAF8, 0.03);
 	color: alpha(#FAFAF8, 0.6);
@@ -1564,7 +1571,7 @@ window {
 /* Scientific buttons - burgundy medium tint */
 .sci-button {
 	font-size: 0.85rem;
-	min-height: 36px;
+	min-height: 2em;
 	padding: 4px 2px;
 	background: alpha(#532b2b, 0.2);
 	border: 1px solid alpha(#8b5555, 0.25);
@@ -1595,7 +1602,7 @@ window {
 /* Hex buttons - warm amber (warning color from brand) */
 .hex-button {
 	font-size: 0.9rem;
-	min-height: 36px;
+	min-height: 2em;
 	padding: 4px 2px;
 	background: alpha(#92400E, 0.2);
 	border: 1px solid alpha(#F59E0B, 0.25);
@@ -1611,7 +1618,7 @@ window {
 /* Bitwise buttons - error red from brand */
 .bitwise-button {
 	font-size: 0.75rem;
-	min-height: 36px;
+	min-height: 2em;
 	padding: 4px 2px;
 	background: alpha(#991B1B, 0.2);
 	border: 1px solid alpha(#EF4444, 0.25);
