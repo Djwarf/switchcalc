@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=SwitchCalc
+Comment=Complete calculator with Standard, Scientific, Programmer, and Date modes
+Exec=switchcalc
+Icon=accessories-calculator
+Terminal=false
+Type=Application
+Categories=Utility;Calculator;
+Keywords=calculator;math;scientific;programmer;hex;binary;date;
