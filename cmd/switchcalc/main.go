@@ -84,6 +84,7 @@ func activate(app *gtk.Application) {
 	calcApp.window = gtk.NewApplicationWindow(app)
 	calcApp.window.SetTitle("SwitchCalc")
 	calcApp.window.SetDefaultSize(400, 600)
+	calcApp.window.SetResizable(true)
 
 	mainBox := gtk.NewBox(gtk.OrientationVertical, 0)
 	mainBox.AddCSSClass("main-container")
@@ -1422,24 +1423,24 @@ window {
 	background: alpha(#FAFAF8, 0.03);
 	border: 1px solid alpha(#FAFAF8, 0.08);
 	border-radius: 16px;
-	padding: 20px;
+	padding: 16px;
 	margin: 8px;
 	box-shadow: 0 8px 32px alpha(black, 0.3), inset 0 1px 0 alpha(#FAFAF8, 0.05);
 }
 
 .expression-label {
-	font-size: 14px;
+	font-size: 1rem;
 	font-style: italic;
 	color: alpha(#FAFAF8, 0.5);
 	min-height: 20px;
 }
 
 .main-display {
-	font-size: 42px;
+	font-size: 2.5rem;
 	font-weight: 600;
 	font-family: "Crimson Text", Georgia, serif;
 	color: #FAFAF8;
-	min-height: 60px;
+	min-height: 48px;
 	text-shadow: 0 2px 4px alpha(black, 0.4);
 	letter-spacing: -0.01em;
 }
@@ -1473,10 +1474,11 @@ window {
 	background: alpha(#FAFAF8, 0.02);
 	border: 1px solid alpha(#FAFAF8, 0.05);
 	border-radius: 10px;
-	font-size: 18px;
+	font-size: 1.1rem;
 	font-weight: 600;
-	min-height: 52px;
-	margin: 3px;
+	min-height: 44px;
+	margin: 2px;
+	padding: 8px 4px;
 	color: #FAFAF8;
 	transition: all 150ms ease;
 	box-shadow: 0 2px 8px alpha(black, 0.15);
@@ -1561,7 +1563,9 @@ window {
 
 /* Scientific buttons - burgundy medium tint */
 .sci-button {
-	font-size: 13px;
+	font-size: 0.85rem;
+	min-height: 36px;
+	padding: 4px 2px;
 	background: alpha(#532b2b, 0.2);
 	border: 1px solid alpha(#8b5555, 0.25);
 	color: #ddbfbf;
@@ -1590,6 +1594,9 @@ window {
 
 /* Hex buttons - warm amber (warning color from brand) */
 .hex-button {
+	font-size: 0.9rem;
+	min-height: 36px;
+	padding: 4px 2px;
 	background: alpha(#92400E, 0.2);
 	border: 1px solid alpha(#F59E0B, 0.25);
 	color: #FCD34D;
@@ -1603,7 +1610,9 @@ window {
 
 /* Bitwise buttons - error red from brand */
 .bitwise-button {
-	font-size: 12px;
+	font-size: 0.75rem;
+	min-height: 36px;
+	padding: 4px 2px;
 	background: alpha(#991B1B, 0.2);
 	border: 1px solid alpha(#EF4444, 0.25);
 	color: #F87171;
