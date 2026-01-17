@@ -129,9 +129,9 @@ func activate(app *gtk.Application) {
 }
 
 func (a *App) createModeSelector() *gtk.Box {
-	box := gtk.NewBox(gtk.OrientationHorizontal, 4)
-	box.SetMarginTop(8)
-	box.SetMarginBottom(8)
+	box := gtk.NewBox(gtk.OrientationHorizontal, 2)
+	box.SetMarginTop(4)
+	box.SetMarginBottom(4)
 	box.SetMarginStart(8)
 	box.SetMarginEnd(8)
 	box.SetHomogeneous(true)
@@ -183,12 +183,13 @@ func (a *App) setMode(mode CalculatorMode, stackName string) {
 }
 
 func (a *App) createDisplayArea() *gtk.Box {
-	box := gtk.NewBox(gtk.OrientationVertical, 4)
+	box := gtk.NewBox(gtk.OrientationVertical, 0)
 	box.AddCSSClass("display-area")
-	box.SetMarginStart(16)
-	box.SetMarginEnd(16)
-	box.SetMarginTop(8)
-	box.SetMarginBottom(8)
+	box.SetMarginStart(4)
+	box.SetMarginEnd(4)
+	box.SetMarginTop(2)
+	box.SetMarginBottom(2)
+	box.SetVAlign(gtk.AlignStart)
 
 	a.expressionLbl = gtk.NewLabel("")
 	a.expressionLbl.AddCSSClass("expression-label")
@@ -204,16 +205,22 @@ func (a *App) createDisplayArea() *gtk.Box {
 	return box
 }
 
-func (a *App) createStandardKeypad() *gtk.Box {
-	box := gtk.NewBox(gtk.OrientationVertical, 4)
-	box.SetMarginStart(8)
-	box.SetMarginEnd(8)
-	box.SetMarginBottom(8)
+func (a *App) createStandardKeypad() *gtk.Widget {
+	scrollWin := gtk.NewScrolledWindow()
+	scrollWin.SetVExpand(true)
+	scrollWin.SetPolicy(gtk.PolicyNever, gtk.PolicyAutomatic)
+	scrollWin.SetPropagateNaturalHeight(true)
+
+	box := gtk.NewBox(gtk.OrientationVertical, 2)
+	box.SetMarginStart(4)
+	box.SetMarginEnd(4)
+	box.SetMarginBottom(4)
 	box.SetVExpand(true)
 
 	// Memory buttons row
-	memRow := gtk.NewBox(gtk.OrientationHorizontal, 4)
+	memRow := gtk.NewBox(gtk.OrientationHorizontal, 2)
 	memRow.SetHomogeneous(true)
+	memRow.SetVExpand(true)
 	memButtons := []struct {
 		label string
 		fn    func()
@@ -275,7 +282,7 @@ func (a *App) createStandardKeypad() *gtk.Box {
 	}
 
 	for _, row := range keys {
-		rowBox := gtk.NewBox(gtk.OrientationHorizontal, 4)
+		rowBox := gtk.NewBox(gtk.OrientationHorizontal, 2)
 		rowBox.SetHomogeneous(true)
 		rowBox.SetVExpand(true)
 		for _, key := range row {
@@ -285,18 +292,24 @@ func (a *App) createStandardKeypad() *gtk.Box {
 		box.Append(rowBox)
 	}
 
-	return box
+	scrollWin.SetChild(box)
+	return &scrollWin.Widget
 }
 
-func (a *App) createScientificKeypad() *gtk.Box {
-	box := gtk.NewBox(gtk.OrientationVertical, 4)
-	box.SetMarginStart(8)
-	box.SetMarginEnd(8)
-	box.SetMarginBottom(8)
+func (a *App) createScientificKeypad() *gtk.Widget {
+	scrollWin := gtk.NewScrolledWindow()
+	scrollWin.SetVExpand(true)
+	scrollWin.SetPolicy(gtk.PolicyNever, gtk.PolicyAutomatic)
+	scrollWin.SetPropagateNaturalHeight(true)
+
+	box := gtk.NewBox(gtk.OrientationVertical, 2)
+	box.SetMarginStart(4)
+	box.SetMarginEnd(4)
+	box.SetMarginBottom(4)
 	box.SetVExpand(true)
 
 	// Angle mode selector
-	angleModeBox := gtk.NewBox(gtk.OrientationHorizontal, 4)
+	angleModeBox := gtk.NewBox(gtk.OrientationHorizontal, 2)
 	angleModeBox.SetHomogeneous(true)
 	angleModeBox.SetVExpand(true)
 
@@ -395,7 +408,7 @@ func (a *App) createScientificKeypad() *gtk.Box {
 	}
 
 	for _, row := range sciKeys {
-		rowBox := gtk.NewBox(gtk.OrientationHorizontal, 4)
+		rowBox := gtk.NewBox(gtk.OrientationHorizontal, 2)
 		rowBox.SetHomogeneous(true)
 		rowBox.SetVExpand(true)
 		for _, key := range row {
@@ -444,7 +457,7 @@ func (a *App) createScientificKeypad() *gtk.Box {
 	}
 
 	for _, row := range numKeys {
-		rowBox := gtk.NewBox(gtk.OrientationHorizontal, 4)
+		rowBox := gtk.NewBox(gtk.OrientationHorizontal, 2)
 		rowBox.SetHomogeneous(true)
 		rowBox.SetVExpand(true)
 		for _, key := range row {
@@ -454,14 +467,20 @@ func (a *App) createScientificKeypad() *gtk.Box {
 		box.Append(rowBox)
 	}
 
-	return box
+	scrollWin.SetChild(box)
+	return &scrollWin.Widget
 }
 
-func (a *App) createProgrammerKeypad() *gtk.Box {
-	box := gtk.NewBox(gtk.OrientationVertical, 4)
-	box.SetMarginStart(8)
-	box.SetMarginEnd(8)
-	box.SetMarginBottom(8)
+func (a *App) createProgrammerKeypad() *gtk.Widget {
+	scrollWin := gtk.NewScrolledWindow()
+	scrollWin.SetVExpand(true)
+	scrollWin.SetPolicy(gtk.PolicyNever, gtk.PolicyAutomatic)
+	scrollWin.SetPropagateNaturalHeight(true)
+
+	box := gtk.NewBox(gtk.OrientationVertical, 2)
+	box.SetMarginStart(4)
+	box.SetMarginEnd(4)
+	box.SetMarginBottom(4)
 	box.SetVExpand(true)
 
 	// Bit width and shift amount controls
@@ -589,7 +608,7 @@ func (a *App) createProgrammerKeypad() *gtk.Box {
 	box.Append(a.bitDisplay)
 
 	// Hex digits row
-	hexRow := gtk.NewBox(gtk.OrientationHorizontal, 4)
+	hexRow := gtk.NewBox(gtk.OrientationHorizontal, 2)
 	hexRow.SetHomogeneous(true)
 	hexRow.SetVExpand(true)
 
@@ -606,7 +625,7 @@ func (a *App) createProgrammerKeypad() *gtk.Box {
 	box.Append(hexRow)
 
 	// Bitwise operations - Row 1 (basic)
-	bitwiseRow1 := gtk.NewBox(gtk.OrientationHorizontal, 4)
+	bitwiseRow1 := gtk.NewBox(gtk.OrientationHorizontal, 2)
 	bitwiseRow1.SetHomogeneous(true)
 	bitwiseRow1.SetVExpand(true)
 	bitwiseKeys1 := []struct {
@@ -625,7 +644,7 @@ func (a *App) createProgrammerKeypad() *gtk.Box {
 	box.Append(bitwiseRow1)
 
 	// Bitwise operations - Row 2 (NAND, NOR, shifts)
-	bitwiseRow2 := gtk.NewBox(gtk.OrientationHorizontal, 4)
+	bitwiseRow2 := gtk.NewBox(gtk.OrientationHorizontal, 2)
 	bitwiseRow2.SetHomogeneous(true)
 	bitwiseRow2.SetVExpand(true)
 	bitwiseKeys2 := []struct {
@@ -644,7 +663,7 @@ func (a *App) createProgrammerKeypad() *gtk.Box {
 	box.Append(bitwiseRow2)
 
 	// Bitwise operations - Row 3 (rotate, count)
-	bitwiseRow3 := gtk.NewBox(gtk.OrientationHorizontal, 4)
+	bitwiseRow3 := gtk.NewBox(gtk.OrientationHorizontal, 2)
 	bitwiseRow3.SetHomogeneous(true)
 	bitwiseRow3.SetVExpand(true)
 	bitwiseKeys3 := []struct {
@@ -663,7 +682,7 @@ func (a *App) createProgrammerKeypad() *gtk.Box {
 	box.Append(bitwiseRow3)
 
 	// Bitwise operations - Row 4 (advanced)
-	bitwiseRow4 := gtk.NewBox(gtk.OrientationHorizontal, 4)
+	bitwiseRow4 := gtk.NewBox(gtk.OrientationHorizontal, 2)
 	bitwiseRow4.SetHomogeneous(true)
 	bitwiseRow4.SetVExpand(true)
 	bitwiseKeys4 := []struct {
@@ -720,7 +739,7 @@ func (a *App) createProgrammerKeypad() *gtk.Box {
 	}
 
 	for _, row := range numKeys {
-		rowBox := gtk.NewBox(gtk.OrientationHorizontal, 4)
+		rowBox := gtk.NewBox(gtk.OrientationHorizontal, 2)
 		rowBox.SetHomogeneous(true)
 		rowBox.SetVExpand(true)
 		for _, key := range row {
@@ -730,7 +749,8 @@ func (a *App) createProgrammerKeypad() *gtk.Box {
 		box.Append(rowBox)
 	}
 
-	return box
+	scrollWin.SetChild(box)
+	return &scrollWin.Widget
 }
 
 func (a *App) toggleBitAtPosition() {
@@ -742,7 +762,7 @@ func (a *App) toggleBitAtPosition() {
 	a.engine.ToggleBit(uint(pos))
 }
 
-func (a *App) createDateTimePage() *gtk.Box {
+func (a *App) createDateTimePage() *gtk.Widget {
 	// Create scrollable container for all date content
 	scrollWin := gtk.NewScrolledWindow()
 	scrollWin.SetVExpand(true)
@@ -978,12 +998,7 @@ func (a *App) createDateTimePage() *gtk.Box {
 	box.Append(infoFrame)
 
 	scrollWin.SetChild(box)
-
-	// Wrap in container box
-	containerBox := gtk.NewBox(gtk.OrientationVertical, 0)
-	containerBox.Append(scrollWin)
-
-	return containerBox
+	return &scrollWin.Widget
 }
 
 func daysUntilEndOfYear(t time.Time) int {
@@ -1157,8 +1172,8 @@ func (a *App) createButton(label, cssClass string, onClick func()) *gtk.Button {
 	btn.SetLabel(label)
 	btn.AddCSSClass("calc-button")
 	btn.AddCSSClass(cssClass)
-	btn.SetVExpand(true)
 	btn.SetHExpand(true)
+	btn.SetVExpand(true)
 	btn.ConnectClicked(onClick)
 	return btn
 }
@@ -1408,16 +1423,16 @@ func (a *App) applyCSS() {
 /* SwitchCalc - Glassmorphism with SwitchSides Branding
    Primary: Deep Burgundy #2e0000
    Font: Crimson Text (serif)
-   Background: Newsprint warm tones with glass effects
+   Background: Transparent glass effects
 */
 
-/* Base window - dark grey/black */
+/* Base window - transparent dark */
 .main-container {
-	background: linear-gradient(145deg, #1a1a1a 0%, #0f0f0f 50%, #000000 100%);
+	background: alpha(#0a0a0a, 0.85);
 }
 
 window {
-	background: linear-gradient(145deg, #1a1a1a 0%, #0f0f0f 50%, #000000 100%);
+	background: alpha(#0a0a0a, 0.75);
 }
 
 /* Universal font - Crimson Text */
@@ -1427,216 +1442,215 @@ window {
 
 /* Glass display panel */
 .display-area {
-	background: alpha(#FAFAF8, 0.03);
-	border: 1px solid alpha(#FAFAF8, 0.08);
+	background: alpha(#FAFAF8, 0.05);
+	border: 1px solid alpha(#FAFAF8, 0.12);
 	border-radius: 16px;
-	padding: 16px;
-	margin: 8px;
-	box-shadow: 0 8px 32px alpha(black, 0.3), inset 0 1px 0 alpha(#FAFAF8, 0.05);
+	padding: 8px 12px;
+	margin: 4px 8px;
+	box-shadow: 0 8px 32px alpha(black, 0.4), inset 0 1px 0 alpha(#FAFAF8, 0.08);
 }
 
 .expression-label {
 	font-size: 1rem;
 	font-style: italic;
 	color: alpha(#FAFAF8, 0.5);
-	min-height: 1.2em;
 }
 
 .main-display {
-	font-size: 2.5rem;
+	font-size: 1.8rem;
 	font-weight: 600;
 	font-family: "Crimson Text", Georgia, serif;
 	color: #FAFAF8;
-	min-height: 2em;
 	text-shadow: 0 2px 4px alpha(black, 0.4);
 	letter-spacing: -0.01em;
 }
 
 /* Mode selector - glass buttons with burgundy accent */
 .mode-button {
-	background: alpha(#FAFAF8, 0.02);
-	border: 1px solid alpha(#FAFAF8, 0.06);
-	border-radius: 8px;
-	padding: 10px 14px;
+	background: alpha(#FAFAF8, 0.04);
+	border: 1px solid alpha(#FAFAF8, 0.1);
+	border-radius: 10px;
+	padding: 6px 10px;
 	font-weight: 600;
-	font-size: 13px;
-	color: alpha(#FAFAF8, 0.75);
+	font-size: 12px;
+	color: alpha(#FAFAF8, 0.8);
 	transition: all 200ms ease;
 }
 
 .mode-button:hover {
-	background: alpha(#FAFAF8, 0.06);
-	border-color: alpha(#FAFAF8, 0.12);
+	background: alpha(#FAFAF8, 0.08);
+	border-color: alpha(#FAFAF8, 0.18);
+	box-shadow: 0 4px 12px alpha(black, 0.2);
 }
 
 .mode-button:checked {
-	background: linear-gradient(135deg, alpha(#3e0000, 0.5), alpha(#2e0000, 0.5));
-	border-color: alpha(#8b5555, 0.4);
+	background: linear-gradient(135deg, alpha(#5e1515, 0.6), alpha(#3e0000, 0.6));
+	border-color: alpha(#bb6666, 0.5);
 	color: #FAFAF8;
-	box-shadow: 0 4px 15px alpha(#2e0000, 0.3);
+	box-shadow: 0 4px 20px alpha(#3e0000, 0.4);
 }
 
 /* Base calculator button - frosted glass */
 .calc-button {
-	background: alpha(#FAFAF8, 0.02);
-	border: 1px solid alpha(#FAFAF8, 0.05);
-	border-radius: 10px;
-	font-size: 1.1rem;
+	background: alpha(#FAFAF8, 0.04);
+	border: 1px solid alpha(#FAFAF8, 0.08);
+	border-radius: 12px;
+	font-size: 1rem;
 	font-weight: 600;
-	min-height: 2.5em;
 	margin: 2px;
-	padding: 8px 4px;
+	padding: 4px 2px;
 	color: #FAFAF8;
 	transition: all 150ms ease;
-	box-shadow: 0 2px 8px alpha(black, 0.15);
+	box-shadow: 0 2px 8px alpha(black, 0.2), inset 0 1px 0 alpha(#FAFAF8, 0.05);
 }
 
 .calc-button:hover {
-	background: alpha(#FAFAF8, 0.06);
-	border-color: alpha(#FAFAF8, 0.1);
-	box-shadow: 0 4px 12px alpha(black, 0.2);
+	background: alpha(#FAFAF8, 0.1);
+	border-color: alpha(#FAFAF8, 0.15);
+	box-shadow: 0 6px 16px alpha(black, 0.25);
+	transform: translateY(-1px);
 }
 
 .calc-button:active {
-	background: alpha(#FAFAF8, 0.1);
+	background: alpha(#FAFAF8, 0.15);
+	transform: translateY(0);
 }
 
 /* Number buttons - warm glass */
 .number-button {
-	background: alpha(#FAFAF8, 0.03);
-	border: 1px solid alpha(#FAFAF8, 0.06);
+	background: alpha(#FAFAF8, 0.06);
+	border: 1px solid alpha(#FAFAF8, 0.1);
 	color: #FAFAF8;
 }
 
 .number-button:hover {
-	background: alpha(#FAFAF8, 0.08);
-	border-color: alpha(#FAFAF8, 0.12);
+	background: alpha(#FAFAF8, 0.12);
+	border-color: alpha(#FAFAF8, 0.18);
 }
 
 /* Operator buttons - burgundy accent */
 .operator-button {
-	background: linear-gradient(135deg, alpha(#3e0000, 0.4), alpha(#2e0000, 0.4));
-	border: 1px solid alpha(#8b5555, 0.3);
+	background: linear-gradient(135deg, alpha(#6e2020, 0.5), alpha(#4e1010, 0.5));
+	border: 1px solid alpha(#aa6666, 0.4);
 	color: #FAFAF8;
 }
 
 .operator-button:hover {
-	background: linear-gradient(135deg, alpha(#4e2821, 0.55), alpha(#3e0000, 0.55));
-	border-color: alpha(#a87070, 0.4);
-	box-shadow: 0 4px 15px alpha(#2e0000, 0.25);
+	background: linear-gradient(135deg, alpha(#8e3030, 0.6), alpha(#6e2020, 0.6));
+	border-color: alpha(#cc8888, 0.5);
+	box-shadow: 0 6px 20px alpha(#4e1010, 0.35);
 }
 
 /* Equals button - rich burgundy */
 .equals-button {
-	background: linear-gradient(135deg, alpha(#3e0000, 0.6), alpha(#2e0000, 0.6), alpha(#1e0000, 0.6));
-	border: 1px solid alpha(#8b5555, 0.35);
+	background: linear-gradient(135deg, alpha(#7e2020, 0.7), alpha(#5e1010, 0.7), alpha(#3e0000, 0.7));
+	border: 1px solid alpha(#bb7777, 0.45);
 	color: #FAFAF8;
 	font-weight: 700;
-	box-shadow: 0 4px 15px alpha(#2e0000, 0.35);
+	box-shadow: 0 4px 20px alpha(#4e1010, 0.45);
 }
 
 .equals-button:hover {
-	background: linear-gradient(135deg, alpha(#4e2821, 0.7), alpha(#3e0000, 0.7), alpha(#2e0000, 0.7));
-	box-shadow: 0 6px 20px alpha(#2e0000, 0.45);
+	background: linear-gradient(135deg, alpha(#9e3030, 0.8), alpha(#7e2020, 0.8), alpha(#5e1010, 0.8));
+	box-shadow: 0 8px 28px alpha(#4e1010, 0.55);
 }
 
 /* Function buttons - subtle warm glass */
 .function-button {
-	background: alpha(#FAFAF8, 0.015);
-	border: 1px solid alpha(#FAFAF8, 0.04);
-	color: alpha(#FAFAF8, 0.85);
-	font-size: 16px;
+	background: alpha(#FAFAF8, 0.03);
+	border: 1px solid alpha(#FAFAF8, 0.06);
+	color: alpha(#FAFAF8, 0.9);
+	font-size: 15px;
 }
 
 .function-button:hover {
-	background: alpha(#FAFAF8, 0.05);
-	border-color: alpha(#FAFAF8, 0.08);
+	background: alpha(#FAFAF8, 0.08);
+	border-color: alpha(#FAFAF8, 0.12);
 }
 
 /* Memory buttons - minimal elegant */
 .memory-button {
-	font-size: 12px;
-	min-height: 2em;
-	background: transparent;
-	border: 1px solid alpha(#FAFAF8, 0.03);
-	color: alpha(#FAFAF8, 0.6);
+	font-size: 11px;
+	background: alpha(#FAFAF8, 0.02);
+	border: 1px solid alpha(#FAFAF8, 0.05);
+	color: alpha(#FAFAF8, 0.7);
 	font-style: italic;
 }
 
 .memory-button:hover {
-	background: alpha(#FAFAF8, 0.04);
-	color: alpha(#FAFAF8, 0.9);
+	background: alpha(#FAFAF8, 0.06);
+	border-color: alpha(#FAFAF8, 0.1);
+	color: alpha(#FAFAF8, 0.95);
 }
 
 /* Scientific buttons - burgundy medium tint */
 .sci-button {
 	font-size: 0.85rem;
-	min-height: 2em;
 	padding: 4px 2px;
-	background: alpha(#532b2b, 0.2);
-	border: 1px solid alpha(#8b5555, 0.25);
-	color: #ddbfbf;
+	background: alpha(#6e3535, 0.25);
+	border: 1px solid alpha(#aa7070, 0.3);
+	color: #eecccc;
 }
 
 .sci-button:hover {
-	background: alpha(#532b2b, 0.35);
-	border-color: alpha(#a87070, 0.35);
-	box-shadow: 0 4px 12px alpha(#2e0000, 0.2);
+	background: alpha(#7e4545, 0.4);
+	border-color: alpha(#cc9090, 0.45);
+	box-shadow: 0 4px 16px alpha(#4e1515, 0.3);
 }
 
 /* Angle mode buttons */
 .angle-button {
 	font-size: 12px;
 	padding: 6px 10px;
-	background: alpha(#FAFAF8, 0.02);
-	border: 1px solid alpha(#FAFAF8, 0.05);
-	color: alpha(#FAFAF8, 0.7);
+	background: alpha(#FAFAF8, 0.04);
+	border: 1px solid alpha(#FAFAF8, 0.08);
+	color: alpha(#FAFAF8, 0.8);
+	border-radius: 8px;
 }
 
 .angle-button:checked {
-	background: alpha(#3e0000, 0.35);
-	border-color: alpha(#8b5555, 0.3);
-	color: #ddbfbf;
+	background: alpha(#5e1515, 0.5);
+	border-color: alpha(#aa7070, 0.45);
+	color: #eedddd;
+	box-shadow: 0 2px 12px alpha(#3e0000, 0.3);
 }
 
 /* Hex buttons - warm amber (warning color from brand) */
 .hex-button {
 	font-size: 0.9rem;
-	min-height: 2em;
 	padding: 4px 2px;
-	background: alpha(#92400E, 0.2);
-	border: 1px solid alpha(#F59E0B, 0.25);
-	color: #FCD34D;
+	background: alpha(#b85a10, 0.3);
+	border: 1px solid alpha(#ffb020, 0.35);
+	color: #FFE066;
 }
 
 .hex-button:hover {
-	background: alpha(#92400E, 0.35);
-	border-color: alpha(#F59E0B, 0.4);
-	box-shadow: 0 4px 12px alpha(#92400E, 0.2);
+	background: alpha(#c86a20, 0.45);
+	border-color: alpha(#ffc040, 0.5);
+	box-shadow: 0 4px 16px alpha(#a04a00, 0.3);
 }
 
-/* Bitwise buttons - error red from brand */
+/* Bitwise buttons - soft red */
 .bitwise-button {
 	font-size: 0.75rem;
-	min-height: 2em;
 	padding: 4px 2px;
-	background: alpha(#991B1B, 0.2);
-	border: 1px solid alpha(#EF4444, 0.25);
-	color: #F87171;
+	background: alpha(#aa3030, 0.25);
+	border: 1px solid alpha(#ff6060, 0.3);
+	color: #FF9090;
 }
 
 .bitwise-button:hover {
-	background: alpha(#991B1B, 0.35);
-	border-color: alpha(#EF4444, 0.4);
-	box-shadow: 0 4px 12px alpha(#991B1B, 0.2);
+	background: alpha(#bb4040, 0.4);
+	border-color: alpha(#ff8080, 0.45);
+	box-shadow: 0 4px 16px alpha(#aa2020, 0.3);
 }
 
 /* Programmer base display */
 .base-display {
-	background: alpha(#FAFAF8, 0.02);
-	border: 1px solid alpha(#FAFAF8, 0.05);
+	background: alpha(#FAFAF8, 0.04);
+	border: 1px solid alpha(#FAFAF8, 0.08);
 	border-radius: 12px;
-	padding: 12px;
+	padding: 10px;
 }
 
 .base-label {
@@ -1656,32 +1670,32 @@ window {
 .bit-display {
 	font-family: "SF Mono", "Consolas", monospace;
 	font-size: 11px;
-	background: alpha(#FAFAF8, 0.015);
-	border: 1px solid alpha(#FAFAF8, 0.04);
-	border-radius: 8px;
-	padding: 10px;
-	margin: 6px 0;
-	color: alpha(#FAFAF8, 0.7);
+	background: alpha(#FAFAF8, 0.03);
+	border: 1px solid alpha(#FAFAF8, 0.06);
+	border-radius: 10px;
+	padding: 8px;
+	margin: 4px 0;
+	color: alpha(#FAFAF8, 0.8);
 }
 
 /* Date calculator result */
 .date-result {
 	font-family: "Crimson Text", Georgia, serif;
 	font-size: 14px;
-	background: alpha(#FAFAF8, 0.02);
-	border: 1px solid alpha(#FAFAF8, 0.05);
+	background: alpha(#FAFAF8, 0.04);
+	border: 1px solid alpha(#FAFAF8, 0.08);
 	border-radius: 12px;
-	padding: 14px;
-	margin-top: 10px;
+	padding: 12px;
+	margin-top: 8px;
 	color: #FAFAF8;
 	line-height: 1.6;
 }
 
 /* Frame styling for date page */
 frame {
-	background: alpha(#FAFAF8, 0.02);
-	border: 1px solid alpha(#FAFAF8, 0.05);
-	border-radius: 12px;
+	background: alpha(#FAFAF8, 0.03);
+	border: 1px solid alpha(#FAFAF8, 0.08);
+	border-radius: 14px;
 }
 
 frame > border {
@@ -1689,47 +1703,47 @@ frame > border {
 }
 
 frame > label {
-	color: #c59999;
+	color: #dd9999;
 	font-weight: 600;
 	font-size: 14px;
-	padding: 0 8px;
+	padding: 0 10px;
 }
 
 /* Entry fields - warm glass */
 entry {
-	background: alpha(#FAFAF8, 0.03);
-	border: 1px solid alpha(#FAFAF8, 0.06);
-	border-radius: 8px;
+	background: alpha(#FAFAF8, 0.05);
+	border: 1px solid alpha(#FAFAF8, 0.1);
+	border-radius: 10px;
 	padding: 8px 12px;
 	color: #FAFAF8;
-	caret-color: #c59999;
+	caret-color: #dd9999;
 	font-family: "Crimson Text", Georgia, serif;
 }
 
 entry:focus {
-	border-color: alpha(#3e0000, 0.5);
-	box-shadow: 0 0 0 3px alpha(#2e0000, 0.15);
+	border-color: alpha(#6e2020, 0.6);
+	box-shadow: 0 0 0 3px alpha(#4e1010, 0.2);
 }
 
 entry placeholder {
-	color: alpha(#FAFAF8, 0.35);
+	color: alpha(#FAFAF8, 0.4);
 	font-style: italic;
 }
 
 /* Suggested action button - burgundy */
 .suggested-action {
-	background: linear-gradient(135deg, alpha(#3e0000, 0.5), alpha(#2e0000, 0.5));
-	border: 1px solid alpha(#8b5555, 0.35);
-	border-radius: 8px;
+	background: linear-gradient(135deg, alpha(#6e2020, 0.6), alpha(#4e1010, 0.6));
+	border: 1px solid alpha(#aa7070, 0.45);
+	border-radius: 10px;
 	color: #FAFAF8;
 	font-weight: 600;
 	padding: 10px 16px;
-	box-shadow: 0 4px 12px alpha(#2e0000, 0.3);
+	box-shadow: 0 4px 16px alpha(#4e1010, 0.35);
 }
 
 .suggested-action:hover {
-	background: linear-gradient(135deg, alpha(#4e2821, 0.6), alpha(#3e0000, 0.6));
-	box-shadow: 0 6px 16px alpha(#2e0000, 0.4);
+	background: linear-gradient(135deg, alpha(#8e3030, 0.7), alpha(#6e2020, 0.7));
+	box-shadow: 0 6px 20px alpha(#4e1010, 0.45);
 }
 
 /* Dim label */
